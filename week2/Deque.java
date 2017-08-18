@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Compilation: javac Deque.java
+ *  Execution:  java Deque
+ *  Dependencies: StdRandom.java
+ * 
+ *  Deque
+ *
+ ******************************************************************************/
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Compilation: javac RandomizedQueue.java
+ *  Execution:  java RandomizedQueue
+ *  Dependencies: StdIn.java StdOut.java
+ * 
+ *  RandomizedQueue
+ *
+ ******************************************************************************/
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -6,13 +15,11 @@ import edu.princeton.cs.algs4.StdRandom;
 public class RandomizedQueue<Item> implements Iterable<Item> {
     
     private Item[] items;
-    private int[] notNullIndexes;
     private int queueSize = 0;
     
     // construct an empty randomized queue
     public RandomizedQueue() {
         items = (Item[]) new Object[1];
-        notNullIndexes = new int[1];
     }
     
     // is the queue empty?
@@ -32,8 +39,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         
         if (queueSize == items.length) resize(2 * items.length);
         items[queueSize++] = item;
-        
-        rebuildIndex();
     }
     
     // remove and return a random item
@@ -41,27 +46,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
         
-        int rInt = notNullIndexes[StdRandom.uniform(queueSize)];
+        int rInt = StdRandom.uniform(queueSize);
 
         Item item = items[rInt];
-        items[rInt] = null;
+        items[rInt] = items[queueSize - 1];
+        items[queueSize - 1] = null;
         queueSize--;
         
-        if (items.length > 4 && queueSize == items.length/4) resize(items.length/2);  
-        
-        rebuildIndex();
-        
+        if (queueSize > 0 && queueSize == items.length/4) resize(items.length/2);  
+
         return item;
-    }
-    
-    private void rebuildIndex() {
-        int indexInCopy = 0;
-        int[] copyIndexes = new int[queueSize];
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null)
-                copyIndexes[indexInCopy++] = i;
-        }
-        notNullIndexes = copyIndexes;
     }
     
     // return (but do not remove) a random item
@@ -114,10 +108,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
-        int indexInCopy = 0;
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null)
-                copy[indexInCopy++] = items[i];
+        for (int i = 0; i < queueSize; i++) {
+            copy[i] = items[i];
         }
         items = copy;
     }

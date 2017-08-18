@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Compilation: javac Permutation.java
+ *  Execution:  java Permutation N
+ *  Dependencies: StdIn.java StdOut.java
+ * 
+ *  Test For RandomizedQueue
+ *
+ ******************************************************************************/
+
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
